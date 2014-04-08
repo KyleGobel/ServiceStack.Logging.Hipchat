@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!-- 
+  For more info on this file format visit http://docs.nuget.org/docs/reference/nuspec-reference.
+-->
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">  
+  <metadata>
+    <id>ServiceStack.Logging.Hipchat</id>
+    <version>0.0.0</version>
+    <authors>Kyle Gobel</authors>
+    <description>A hipchat logger for service stack</description>
+    <language>en-US</language>
+    <projectUrl>https://github.com/KyleGobel/ServiceStack.Logging.Hipchat/</projectUrl>
+    <dependencies>
+      <dependency id="ServiceStack.Common"/>
+      <dependency id="Hipchat-CS"/>
+    </dependencies>
+  </metadata>
+</package>
