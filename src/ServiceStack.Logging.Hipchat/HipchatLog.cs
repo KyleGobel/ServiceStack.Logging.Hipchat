@@ -19,6 +19,7 @@ namespace ServiceStack.Logging.Hipchat
         {
             _roomName = roomName;
             _hipchatAuthToken = hipchatAuthToken;
+            IsDebugEnabled = true;
         }
 
         public HipchatLog(string roomName, string hipchatAuthId, string hipchatAuthSecret)
@@ -26,6 +27,7 @@ namespace ServiceStack.Logging.Hipchat
             _roomName = roomName;
             _hipchatAuthId = hipchatAuthId;
             _hipchatAuthSecret = hipchatAuthSecret;
+            IsDebugEnabled = true;
         }
 
         private void Write(object message, Exception exception, RoomColors color)
@@ -71,17 +73,20 @@ namespace ServiceStack.Logging.Hipchat
         }
         public void Debug(object message)
         {
-            Write("<b>DEBUG: </b>" + message,null, RoomColors.Purple);
+            if (IsDebugEnabled)
+                Write("<b>DEBUG: </b>" + message,null, RoomColors.Purple);
         }
 
         public void Debug(object message, Exception exception)
         {
-            Write("<b>DEBUG: </b>" +  message, exception, RoomColors.Purple);
+            if (IsDebugEnabled)
+                Write("<b>DEBUG: </b>" +  message, exception, RoomColors.Purple);
         }
 
         public void DebugFormat(string format, params object[] args)
         {
-            Write("<b>DEBUG: </b>" + string.Format(format, args), null,RoomColors.Purple);
+            if (IsDebugEnabled)
+                Write("<b>DEBUG: </b>" + string.Format(format, args), null,RoomColors.Purple);
         }
 
         public void Error(object message)
@@ -144,6 +149,6 @@ namespace ServiceStack.Logging.Hipchat
             Write("<b>WARN: </b>" + string.Format(format, args),null, RoomColors.Gray);
         }
 
-        public bool IsDebugEnabled { get { return true; } }
+        public bool IsDebugEnabled { get; set; }
     }
 }
