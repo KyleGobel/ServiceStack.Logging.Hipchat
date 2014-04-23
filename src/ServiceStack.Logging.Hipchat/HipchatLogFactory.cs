@@ -5,6 +5,8 @@ namespace ServiceStack.Logging.Hipchat
     public class HipchatLogFactory : ILogFactory
     {
         private readonly string _logRoomName;
+        private readonly string _hipchatAuthId;
+        private readonly string _hipchatAuthSecret;
         private readonly string _hipchatAuthToken;
 
         public HipchatLogFactory(string logRoomName, string hipchatAuthToken = null)
@@ -12,6 +14,14 @@ namespace ServiceStack.Logging.Hipchat
             _logRoomName = logRoomName;
             _hipchatAuthToken = hipchatAuthToken;
         }
+
+        public HipchatLogFactory(string logRoomName, string hipchatAuthId, string hipchatAuthSecret)
+        {
+            _logRoomName = logRoomName;
+            _hipchatAuthId = hipchatAuthId;
+            _hipchatAuthSecret = hipchatAuthSecret;
+        }
+
         /// <summary>
         /// Gets the logger.
         /// </summary>
@@ -27,6 +37,8 @@ namespace ServiceStack.Logging.Hipchat
         /// <param name="typeName">Name of the type.</param>
         public ILog GetLogger(string typeName)
         {
+            if (!_hipchatAuthId.IsEmpty() && !_hipchatAuthSecret.IsEmpty())
+                return new HipchatLog(_logRoomName, _hipchatAuthId, _hipchatAuthSecret);
             return new HipchatLog(_logRoomName, _hipchatAuthToken);
         }
     }

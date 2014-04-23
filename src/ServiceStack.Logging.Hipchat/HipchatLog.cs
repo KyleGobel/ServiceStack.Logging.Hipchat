@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using HipchatApiV2;
 using HipchatApiV2.Enums;
@@ -8,6 +9,8 @@ namespace ServiceStack.Logging.Hipchat
     public class HipchatLog : ILog
     {
         private readonly string _roomName;
+        private readonly string _hipchatAuthId;
+        private readonly string _hipchatAuthSecret;
         private readonly string _hipchatAuthToken;
         private const string NEW_LINE = "<br/>";
 
@@ -15,6 +18,13 @@ namespace ServiceStack.Logging.Hipchat
         {
             _roomName = roomName;
             _hipchatAuthToken = hipchatAuthToken;
+        }
+
+        public HipchatLog(string roomName, string hipchatAuthId, string hipchatAuthSecret)
+        {
+            _roomName = roomName;
+            _hipchatAuthId = hipchatAuthId;
+            _hipchatAuthSecret = hipchatAuthSecret;
         }
 
         private void Write(object message, Exception exception, RoomColors color)
@@ -34,7 +44,25 @@ namespace ServiceStack.Logging.Hipchat
             }
 
             var hipchatClient = new HipchatClient(_hipchatAuthToken);
-            hipchatClient.SendNotification(_roomName, sb.ToString(), color);
+
+            if (_hipchatAuthSecret != null && _hipchatAuthSecret != null)
+            {
+                var token = hipchatClient.GenerateToken(GrantType.ClientCredentials,
+                new List<TokenScope>
+                {
+                    TokenScope.SendNotification,
+                },
+                _hipchatAuthId,/*Auth Id*/
+                _hipchatAuthSecret /*Auth Secret*/);
+
+                HipchatApiConfig.AuthToken = token.Access_Token;
+                hipchatClient.SendNotification(_roomName, sb.ToString(), color);
+            }
+            else
+            {
+                hipchatClient.SendNotification(_roomName, sb.ToString(), color);
+            }
+               
         }
         public void Debug(object message)
         {
