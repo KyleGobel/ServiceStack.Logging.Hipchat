@@ -34,7 +34,7 @@ namespace ServiceStack.Logging.Hipchat
 
             if (ApplicationName != null)
             {
-                sb.Append("<b>Application: </b>" + ApplicationName);
+                sb.Append("<b>Application: </b>" + ApplicationName).Append(NEW_LINE);
             }
             sb.Append(message).Append(NEW_LINE);
 
