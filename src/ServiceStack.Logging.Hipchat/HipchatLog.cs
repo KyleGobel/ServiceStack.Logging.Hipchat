@@ -13,6 +13,7 @@ namespace ServiceStack.Logging.Hipchat
         private readonly string _hipchatAuthSecret;
         private readonly string _hipchatAuthToken;
         private const string NEW_LINE = "<br/>";
+        public string ApplicationName;
 
         public HipchatLog(string roomName, string hipchatAuthToken = null)
         {
@@ -31,6 +32,10 @@ namespace ServiceStack.Logging.Hipchat
         {
             var sb = new StringBuilder();
 
+            if (ApplicationName != null)
+            {
+                sb.Append("<b>Application: </b>" + ApplicationName);
+            }
             sb.Append(message).Append(NEW_LINE);
 
             while (exception != null)
@@ -66,7 +71,7 @@ namespace ServiceStack.Logging.Hipchat
         }
         public void Debug(object message)
         {
-            Write(message,null, RoomColors.Purple);
+            Write("<b>DEBUG: </b>" + message,null, RoomColors.Purple);
         }
 
         public void Debug(object message, Exception exception)
