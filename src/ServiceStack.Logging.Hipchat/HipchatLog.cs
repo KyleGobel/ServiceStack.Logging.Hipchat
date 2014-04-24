@@ -131,7 +131,7 @@ namespace ServiceStack.Logging.Hipchat
 
         public void InfoFormat(string format, params object[] args)
         {
-            Write("<b>INFO: <b/>" + string.Format(format, args),null, RoomColors.Green);
+            Write("<b>INFO: </b>" + string.Format(format, args),null, RoomColors.Green);
         }
 
         public void Warn(object message)
